@@ -1,0 +1,19 @@
+﻿@model 
+
+@{
+    ViewData["Title"] = "Dettagli Pizza";
+    Layout = "_PizzeriaLayout";
+}
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Url.Content(Model.Img)" class="img-fluid" alt="@Model.Name">
+        </div>
+        <div class="col-md-6">
+            <p>@Model.Description</p>
+            <p>Prezzo: € @Model.Price.ToString("0.00")</p>
+        </div>
+    </div>
+</div>

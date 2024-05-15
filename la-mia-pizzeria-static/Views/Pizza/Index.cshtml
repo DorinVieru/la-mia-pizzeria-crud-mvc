@@ -1,0 +1,42 @@
+﻿@model List<la_mia_pizzeria_static.Models.Pizze>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_PizzeriaLayout";
+}
+
+@section JumboSection {
+    <div class="container-fluid position-relative jumbo">
+        <div class="overlay"></div>
+        <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
+            <h1 class="fw-bold display-4">Pizze bomba!</h1>
+        </div>
+    </div>
+}
+
+<div class="text-center">
+    <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
+    @if (Model.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-3 mt-5">
+            @foreach (var pizza in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-success mb-3" style="width: 22rem;">
+                        <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@pizza.Name</h5>
+                            <p class="card-text">@pizza.Description</p>
+                            <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
+                            <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto">Scopri i suoi ingredienti</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Nessuna pizza disponibile al momento.</p>
+    }
+</div>
