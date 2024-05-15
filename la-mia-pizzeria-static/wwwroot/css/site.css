@@ -60,6 +60,10 @@ li {
     background-position: center;
 }
 
+.jumbo-home {
+    background-image: url('../img/jumbo-home.jpg');
+}
+
 .overlay {
     position: absolute;
     top: 0;

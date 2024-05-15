@@ -1,10 +1,10 @@
-﻿@*@{
+﻿@{
     ViewData["Title"] = "Home Page";
     Layout = "_PizzeriaLayout";
 }
 
 @section JumboSection {
-    <div class="container-fluid position-relative jumbo">
+    <div class="container-fluid position-relative jumbo jumbo-home">
         <div class="overlay"></div>
         <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
             <h1 class="fw-bold display-4">Pizze bomba!</h1>
@@ -12,29 +12,111 @@
     </div>
 }
 
-<div class="text-center">
-    <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
-    @if (Model.Any())
-    {
-        <div class="row row-cols-1 row-cols-md-3 mt-5">
-            @foreach (var pizza in Model)
-            {
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100 border-success mb-3" style="width: 22rem;">
-                        <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@pizza.Name</h5>
-                            <p class="card-text">@pizza.Description</p>
-                            <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
-                            <a href="#" class="btn btn-success mt-auto">Scopri i suoi ingredienti</a>
-                        </div>
-                    </div>
+@*CHI SIAMO*@
+<div class="row py-3 my-5">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-6">
+                <div>
+                    <img src="~/img/about-1.jpg" alt="" class="card-img rounded-3" style="height:40vh; object-fit: cover;">
                 </div>
-            }
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-column justify-content-between h-100">
+                    <img src="~/img/about-2.jpg" alt="" class="card-img rounded-3" style="height: 19vh; object-fit: cover;">
+                    <img src="~/img/about-2.jpg" alt="" class="card-img rounded-3" style="height: 19vh; object-fit: cover;">
+                </div>
+            </div>
         </div>
-    }
-    else
-    {
-        <p>Nessuna pizza disponibile al momento.</p>
-    }
-</div>*@
+    </div>
+    <div class="col-6">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <h3 class="border-bottom border-danger w-50 mb-4 pb-2 px-3">Chi <span class="text-danger">siamo</span></h3>
+            <h4 class="px-3">Un'esperienza del gusto che non dimenticherai facilmente</h4>
+            <p class="px-3">
+                Benvenuti nella nostra autentica pizzeria italiana, dove l'amore per la tradizione e la passione per gli ingredienti di qualità si incontrano per creare un'esperienza culinaria indimenticabile. <br />
+                Noi di <em>Pizza Bomba</em> Ci impegniamo a offrire ai nostri ospiti un viaggio gastronomico attraverso i sapori autentici dell'Italia. <br />
+                Utilizziamo solo prodotti locali e ingredienti freschi, accuratamente selezionati ogni giorno per garantire la massima qualità e autenticità in ogni morso. <br />
+                La nostra farina è scelta con cura per garantire una base leggera e croccante, mentre i nostri sughi sono preparati in casa con ricette tradizionali che si tramandano da generazioni.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*PROMOZIONI*@
+<div class="row py-2 my-5">
+    <div class="col-4">
+        <div class="d-flex flex-column justify-content-between bg-danger text-white rounded-3 p-4 me-2 h-100 position-relative">
+            <h4 class="fw-bold">PIZZA OMAGGIO</h4>
+            <p class="fs-6">Ogni 10 pizze ordinate, ne ricevi una a tua scelta in omaggio!</p>
+            <a href="@Url.Action("Index", "Pizza")" class="text-smallcaps fs-5 fw-semibold link-light">Scopri di più</a>
+            <img src="~/img/logo-pizza-bomba.png" alt="" class="position-absolute" style="height: 6vh; object-fit: cover; right: 7px; bottom: 7px;">
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="d-flex flex-column justify-content-between text-white rounded-3 p-4 mx-2 h-100 position-relative" style="background-color: #FF9D2E;">
+            <h4 class="fw-bold">BIBITA IN OMAGGIO</h4>
+            <p class="fs-6">Ogni ordine con almeno 3 pizze, hai una bibita a scelta in omaggio!</p>
+            <a href="@Url.Action("Index", "Pizza")" class="text-smallcaps fs-5 fw-semibold link-light">Scopri di più</a>
+            <img src="~/img/logo-pizza-bomba.png" alt="" class="position-absolute" style="height: 6vh; object-fit: cover; right: 7px; bottom: 8px;">
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="d-flex flex-column justify-content-between text-white rounded-3 p-4 ms-2 h-100 position-relative" style="background-color: #219652;">
+            <h4 class="fw-bold">SCONTI ESCLUSIVI PER TE</h4>
+            <p class="fs-6">Ricevi la nostra tessera fedeltà e scopri i premi dedicati a te!</p>
+            <a href="@Url.Action("Index", "Pizza")" class="text-smallcaps fs-5 fw-semibold link-light">Scopri di più</a>
+            <img src="~/img/logo-pizza-bomba.png" alt="" class="position-absolute" style="height: 6vh; object-fit: cover; right: 8px; bottom: 7px;">
+        </div>
+    </div>
+</div>
+
+@*SCEGLI NOI*@
+<div class="row py-3 my-5 d-flex justify-content-center">
+    <h3 class="text-center border-bottom border-danger w-50 mb-4 pb-2">Perchè siamo la <span class="text-danger">scelta giusta per te</span></h3>
+    <div class="col-7 d-flex align-items-center">
+        <div class="row row-cols-2">
+            <div class="row border-bottom border-end border-1 d-flex justify-content-center align-items-center p-3">
+                <div class="col-3">
+                    <img src="~/img/logo-pizza-bomba.png" style="width: 65px" />
+                </div>
+                <div class="col-8">
+                    <h5>Ingedienti KM 0</h5>
+                    <p class="m-0">Utilizziamo ingredienti a km zero, privilegiando fornitori locali e sostenendo la nostra comunità agricola.</p>
+                </div>
+            </div>
+            <div class="row border-bottom border-1 d-flex justify-content-center align-items-center p-3">
+                <div class="col-3">
+                    <img src="~/img/logo-pizza-bomba.png" style="width: 60px" />
+                </div>
+                <div class="col-8">
+                    <h5>Prodotti freschi e locali</h5>
+                    <p class="m-0">Utilizziamo solo prodotti locali e ingredienti freschi, accuratamente selezionati ogni giorno.</p>
+                </div>
+            </div>
+            <div class="row border-end d-flex justify-content-center align-items-center p-3">
+                <div class="col-3">
+                    <img src="~/img/logo-pizza-bomba.png" style="width: 60px" />
+                </div>
+                <div class="col-8">
+                    <h5>Tradizione rispettata</h5>
+                    <p class="m-0">Le nostre pizze sono realizzate da veri artigiani, con una cura meticolosa per ogni dettaglio.</p>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center align-items-center p-3">
+                <div class="col-3">
+                    <img src="~/img/logo-pizza-bomba.png" style="width: 60px" />
+                </div>
+                <div class="col-8">
+                    <h5>Tu sei il protagonista</h5>
+                    <p class="m-0">Ti faremo sentire come a casa tua, creando un'atmosfera accogliente, famigliare e divertente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div>
+            <img src="~/img/scegli-noi.jpg" alt="" class="card-img rounded-3" style="height:35vh; object-fit: cover;">
+        </div>
+    </div>
+</div>
