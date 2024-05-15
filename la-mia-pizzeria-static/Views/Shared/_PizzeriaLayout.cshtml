@@ -11,16 +11,11 @@
     <body>
         @* HEADER *@
         <header>
-            @Html.Partial("Header")
+            @Html.Partial("Partials/Header")
         </header>
 
         @* JUMBOTRON *@
-        <div class="container-fluid position-relative jumbo">
-            <div class="overlay"></div>
-            <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
-                <h1 class="fw-bold display-4">Pizze bomba!</h1>
-            </div>
-        </div>
+        @RenderSection("JumboSection", required: false)
 
         @* MAIN *@
         <div class="container">
@@ -31,7 +26,7 @@
 
         @* FOOTER *@
         <footer class="border-top footer text-white d-flex align-items-center">
-            @Html.Partial("Footer")
+            @Html.Partial("Partials/Footer")
         </footer>
 
         @* SCRIPT VARI *@

@@ -18,14 +18,20 @@
     pizze.Add(speckBrie);
 }
 
-
-
+@section JumboSection {
+    <div class="container-fluid position-relative jumbo">
+        <div class="overlay"></div>
+        <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
+            <h1 class="fw-bold display-4">Pizze bomba!</h1>
+        </div>
+    </div>
+}
 
 <div class="text-center">
     <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
     <div class="row row-cols-1 row-cols-md-3 mt-5">
         @foreach (var pizza in pizze)
-        {
+         {
             <div class="col-md-4 mb-3">
                 <div class="card h-100 border-success mb-3" style="width: 22rem;">
                     <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
@@ -37,6 +43,6 @@
                     </div>
                 </div>
             </div>
-        }
+         }
     </div>
 </div>

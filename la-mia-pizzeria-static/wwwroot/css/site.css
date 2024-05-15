@@ -54,7 +54,7 @@ li {
 /* JUMBOTRON */
 .jumbo {
     background-image: url('../img/jumbo-pizza.jpg');
-    height: 550px;
+    height: 600px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
