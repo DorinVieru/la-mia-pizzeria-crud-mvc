@@ -5,19 +5,20 @@ namespace la_mia_pizzeria_static.Controllers
 {
     public class PizzaController : Controller
     {
-        private readonly PizzaContext _context;
-
-        public PizzaController(PizzaContext context)
-        {
-            _context = context;
-        }
-
         public IActionResult Index()
         {
-            var pizze = _context.Pizze.ToList();
+            var pizze = PizzaManager.GetAllPizze();
             return View(pizze);
         }
 
-        
+        public IActionResult Details(int id)
+        {
+            var pizza = PizzaManager.GetPizzaById(id);
+            if (pizza == null)
+            {
+                return NotFound();
+            }
+            return View(pizza);
+        }
     }
 }
