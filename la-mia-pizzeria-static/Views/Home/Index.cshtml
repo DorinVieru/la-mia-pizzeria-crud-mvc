@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_PizzeriaLayout";
+
+    Pizze margherita = new Pizze("Margherita", "Una nuova pizza fantasmagorica!", "~/img/pizza-margherita.jpg", 8.50);
+    Pizze americana = new Pizze("Americana", "La pizza Americana che non ti aspetti e che non vorresti!", "~/img/pizza-americana.jpg", 9.50);
+    Pizze bismark = new Pizze("Bismark", "Pizza con tenero uovo di gallina bio allevata a su sabbia, posato su un tappeto di pomodoro e formaggio!", "~/img/pizza-bismark.jpg", 10.00);
+    Pizze diavola = new Pizze("Diavola", "Se vuoi scoprire cos'è l'inferno, assaggia questa pizza!", "~/img/pizza-diavola.jpg", 11.50);
+    Pizze vegetariana = new Pizze("Vegetariana", "Una pizza per chi si illude di mangiare meno grassi credendo di stare più in forma.", "~/img/pizza-vegetariana.jpg", 12.00);
+    Pizze speckBrie = new Pizze("Speck & Brie", "Semplicemente maiale e formaggio, una pizza come tante!", "~/img/pizza-speck-brie.jpg", 10.50);
+
+    List<Pizze> pizze = new List<Pizze>();
+    pizze.Add(margherita);
+    pizze.Add(americana);
+    pizze.Add(bismark);
+    pizze.Add(diavola);
+    pizze.Add(vegetariana);
+    pizze.Add(speckBrie);
+}
+
+
+
+
+<div class="text-center">
+    <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
+    <div class="row row-cols-1 row-cols-md-3 mt-5">
+        @foreach (var pizza in pizze)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-success mb-3" style="width: 22rem;">
+                    <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@pizza.Name</h5>
+                        <p class="card-text">@pizza.Description</p>
+                        <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
+                        <a href="#" class="btn btn-success mt-auto">Scopri i suoi ingredienti</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

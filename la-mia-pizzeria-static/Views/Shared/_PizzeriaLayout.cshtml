@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - PizzaBomba</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/la-mia-pizzeria-static.styles.css" asp-append-version="true" />
+    </head>
+    <body>
+        @* HEADER *@
+        <header>
+            @Html.Partial("Header")
+        </header>
+
+        @* JUMBOTRON *@
+        <div class="container-fluid position-relative jumbo">
+            <div class="overlay"></div>
+            <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
+                <h1 class="fw-bold display-4">Pizze bomba!</h1>
+            </div>
+        </div>
+
+        @* MAIN *@
+        <div class="container">
+            <main role="main" class="py-4">
+                @RenderBody()
+            </main>
+        </div>
+
+        @* FOOTER *@
+        <footer class="border-top footer text-white d-flex align-items-center">
+            @Html.Partial("Footer")
+        </footer>
+
+        @* SCRIPT VARI *@
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>
