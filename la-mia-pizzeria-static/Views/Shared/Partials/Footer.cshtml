@@ -2,11 +2,29 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <h4>NAVIGAZIONE</h4>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link nav-footer text-white text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Homepage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-footer text-white text-decoration-none" asp-area="" asp-controller="Pizza" asp-action="Index">Le nostre pizze</a>
+                </li>
+            </ul>
         </div>
+        <div class="col-6">
+            <h4>GDPR</h4>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link nav-footer text-white" asp-area="" asp-controller="" asp-action="">Cookie Policy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-footer text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                </li>
+            </ul>
+        </div> 
         <div class="col-12 pt-5 d-flex justify-content-center">
-            <p class="copy">&copy; 2024 - PizzaBomba s.p.a - La pizza che ti fa esplodere</p>
-            <p>by Dorin Vieru</p>
+            <p class="copy">&copy; 2024 - PizzaBomba s.p.a - La pizza che ti fa esplodere by Dorin Vieru</p>
         </div>
     </div>
 </div>

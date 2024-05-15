@@ -33,6 +33,7 @@ li {
 
 .nav-link {
     position: relative;
+    text-decoration: none;
 }
 
 .nav-link::before {
@@ -44,6 +45,10 @@ li {
     height: 2px;
     background-color: transparent; 
     transition: background-color 0.3s, bottom 0.3s; 
+}
+
+.nav-footer::before {
+    width: 20%;
 }
 
 .nav-link:hover::before {
@@ -90,7 +95,7 @@ li {
 /* FOOTER */
 footer {
     background-image: url('../img/sfondo-header-footer.png');
-    height: 150px;
+    height: 260px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
