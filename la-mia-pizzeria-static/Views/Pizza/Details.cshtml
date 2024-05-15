@@ -1,4 +1,4 @@
-﻿@model 
+﻿@model Pizze
 
 @{
     ViewData["Title"] = "Dettagli Pizza";
@@ -6,14 +6,25 @@
 }
 
 <div class="container">
-    
+    <h1 class="display-4 text-center fw-bold text-success">Pizza @Model.Name</h1>
     <div class="row">
-        <div class="col-md-6">
-            <img src="@Url.Content(Model.Img)" class="img-fluid" alt="@Model.Name">
+        <div class="col-12">
+            <div class="card detail-card my-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@Url.Content(Model.Img)" class="img-fluid rounded-start" alt="@Model.Name">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text fs-5">Descizione: @Model.Description</p>
+                            <p class="card-text fs-5"> Prezzo: <strong class="text-success"> € @Model.Price.ToString("0.00")</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <p>@Model.Description</p>
-            <p>Prezzo: € @Model.Price.ToString("0.00")</p>
+        <div class="col-12 mb-5 text-center">
+            <a href="@Url.Action("Index", "Pizza")" class="btn btn-primary">Torna all'elenco di tutte le pizze</a>
         </div>
     </div>
 </div>

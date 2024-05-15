@@ -70,13 +70,17 @@ li {
 }
 
 /* MAIN */
-.card {
+.my-list-card {
     transition: box-shadow 0.5s, transform 0.5s; 
 }
 
-.card:hover {
+.my-list-card:hover {
     box-shadow: 0px 0px 10px 0px rgba(25, 135, 84, 0.5);
     transform: scale(1.03); 
+}
+
+.row-detail-card {
+    --bs-gutter-x: 0;
 }
 
 /* FOOTER */
