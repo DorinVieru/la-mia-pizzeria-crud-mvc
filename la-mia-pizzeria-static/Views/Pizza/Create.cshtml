@@ -11,23 +11,27 @@
             <h2>Crea la <span class="text-danger">tua pizza</span> personalizzata</h2>
         </div>
         <div class="col-8">
-            <form asp-controller="Profile" asp-action="Create" method="post" class="my-4">
+            <form asp-controller="Pizza" asp-action="Create" method="post" class="my-4">
                 @Html.AntiForgeryToken()
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
                     <input asp-for="Name" class="form-control" id="name" />
+                    <span asp-validation-for="Name" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrizione della pizza</label>
                     <input asp-for="Description" class="form-control" id="description" />
+                    <span asp-validation-for="Description" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Immagine</label>
                     <input asp-for="Img" class="form-control" id="img" />
+                    <span asp-validation-for="Img" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Prezzo</label>
                     <input asp-for="Price" class="form-control" id="price" />
+                    <span asp-validation-for="Price" class="text-danger fw-bold"></span>
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-success" value="CREA ORA!">
