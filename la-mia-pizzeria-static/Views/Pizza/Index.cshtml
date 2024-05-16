@@ -14,8 +14,17 @@
     </div>
 }
 
-<div class="text-center">
+<div class="col-12 my-5 text-center">
+    <a href="@Url.Action("Create", "Pizza")" class="btn btn-danger fs-3 mb-2">Crea una nuova pizza!</a>
+    <p>Verrà automaticamente aggiunta all'elenco di tutte le pizze disponibili nel nostro rinomato ristorante.</p>
+</div>
+
+<div class="col-12 text-center">
     <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
+    <p> Qui di seguito l'elenco di tutte le pizze disponibili nel nostro menù. <br />
+        Ogni pizza è stata accuratamente scelta e creata per soddisfare ogni esigenza del cliente e vivere un'esperienza indimenticabile. <br />
+        L'elenco è in costante aggiornamento e TU puoi contribuire a miglirarlo!
+    </p>
     @if (Model.Any())
     {
         <div class="row row-cols-1 row-cols-md-3 mt-5">
