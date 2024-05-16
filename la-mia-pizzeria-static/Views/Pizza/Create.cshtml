@@ -10,7 +10,7 @@
         <div class="col-12 text-center">
             <h2>Crea la <span class="text-danger">tua pizza</span> personalizzata</h2>
         </div>
-        <div class="col-8">
+        <div class="col-7">
             <form asp-controller="Pizza" asp-action="Create" method="post" class="my-4">
                 @Html.AntiForgeryToken()
                 <div class="mb-3">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrizione della pizza</label>
-                    <input asp-for="Description" class="form-control" id="description" />
+                    <textarea asp-for="Description" class="form-control" id="description" rows="4"></textarea>
                     <span asp-validation-for="Description" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
@@ -34,7 +34,7 @@
                     <span asp-validation-for="Price" class="text-danger fw-bold"></span>
                 </div>
                 <div class="text-center">
-                    <input type="submit" class="btn btn-success" value="CREA ORA!">
+                    <input type="submit" class="btn btn-success px-5" value="CREA ORA!">
                 </div>
             </form>
         </div>
