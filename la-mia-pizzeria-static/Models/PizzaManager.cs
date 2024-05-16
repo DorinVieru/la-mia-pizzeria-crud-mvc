@@ -25,8 +25,7 @@ namespace la_mia_pizzeria_static.Models
             }
             catch (Exception ex)
             {
-                // Gestisci l'eccezione in base alle tue esigenze
-                Console.WriteLine($"Errore durante la ricerca della pizza: {ex.Message}");
+                Console.WriteLine($"Errore: pizza non trovata. -> {ex.Message}");
                 return null;
             }
         }
