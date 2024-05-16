@@ -18,10 +18,10 @@ namespace la_mia_pizzeria_static.Models
         {
             try
             {
-                using (PizzaContext context = new PizzaContext())
-                {
-                    return context.Pizze.FirstOrDefault(p => p.Id == id);
-                }
+                using PizzaContext context = new PizzaContext();
+
+                return context.Pizze.FirstOrDefault(p => p.Id == id);
+
             }
             catch (Exception ex)
             {
@@ -32,10 +32,9 @@ namespace la_mia_pizzeria_static.Models
 
         public static List<Pizze> GetAllPizze()
         {
-            using (var context = new PizzaContext())
-            {
-                return context.Pizze.ToList();
-            }
+            using var context = new PizzaContext();
+
+            return context.Pizze.ToList();
         }
     }
 }
