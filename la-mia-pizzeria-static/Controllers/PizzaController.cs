@@ -68,6 +68,13 @@ namespace la_mia_pizzeria_static.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        // Chiamata POST che avviene tramite il form passandogli i dati della pizza da MODIFICARE
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            PizzaManager.DeletePizza(id);
+            return RedirectToAction("Index");
+        }
     }
 }
