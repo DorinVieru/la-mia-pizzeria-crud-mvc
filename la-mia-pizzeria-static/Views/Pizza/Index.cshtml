@@ -26,9 +26,17 @@
         Ogni pizza è stata accuratamente scelta e creata per soddisfare ogni esigenza del cliente e vivere un'esperienza indimenticabile. <br />
         L'elenco è in costante aggiornamento e TU puoi contribuire a miglirarlo!
     </p>
+
+    <div class="mt-4 text-start form-check form-switch fs-5">
+        <input class="form-check-input" type="checkbox" id="toggleViewSwitch">
+        <label class="form-check-label" for="toggleViewSwitch">
+            <i class="fa-solid fa-box"></i> Visualizzazione stile card
+        </label>
+    </div>
+
     @if (Model.Any())
     {
-        <div class="row row-cols-1 row-cols-md-3 mt-5">
+        <div id="cardView" class="row row-cols-1 row-cols-md-3 mt-3">
             @foreach (var pizza in Model)
             {
                 <div class="col-md-4 mb-3">
@@ -43,16 +51,49 @@
                             @*MODIFICA*@
                             <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i> Modifica</a>
                             @*CANCELLAZIONE*@
-                            <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
-                                @Html.AntiForgeryToken()
-                                <button type="button" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                            <a type="button" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                    @Html.AntiForgeryToken()
                                     <i class="fa-solid fa-trash"></i> Cancella
-                                </button>
-                            </form>
+                                </form>
+                            </a>
                         </div>
                     </div>
                 </div>
             }
+        </div>
+
+        <div id="tableView" class="d-none mt-3">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table-dark">
+                        <th>Nome</th>
+                        <th>Descrizione</th>
+                        <th>Prezzo</th>
+                        <th>Strumenti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pizza in Model)
+                    {
+                        <tr>
+                            <td>@pizza.Name</td>
+                            <td>@pizza.Description</td>
+                            <td>€ @pizza.Price.ToString("0.00")</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Pizza", new { id = pizza.Id })" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
+                                <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id })" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     }
     else
@@ -80,18 +121,36 @@
     </div>
 </div>
 
-<!-- JAVASCRIPT PER LA MODALE --> 
+<!-- JAVASCRIPT PER LA MODALE -->
 <script>
-    let formIdToDelete = null;
+    document.addEventListener('DOMContentLoaded', function () {
+        let formIdToDelete = null;
 
-    function setFormId(formId, pizzaName) {
-        formIdToDelete = formId;
-        document.getElementById('pizzaName').textContent = pizzaName;
-    }
-
-    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
-        if (formIdToDelete) {
-            document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
+        function setFormId(formId, pizzaName) {
+            formIdToDelete = formId;
+            document.getElementById('pizzaName').textContent = pizzaName;
         }
+
+        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+            if (formIdToDelete) {
+                document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
+            }
+        });
+
+        document.getElementById('toggleViewSwitch').addEventListener('change', function () {
+            var cardView = document.getElementById('cardView');
+            var tableView = document.getElementById('tableView');
+            var toggleLabel = document.querySelector('label[for="toggleViewSwitch"]');
+
+            if (this.checked) {
+                cardView.classList.add('d-none');
+                tableView.classList.remove('d-none');
+                toggleLabel.innerHTML = '<i class="fa-solid fa-table"></i> Visualizzazione stile tabella';
+            } else {
+                cardView.classList.remove('d-none');
+                tableView.classList.add('d-none');
+                toggleLabel.innerHTML = '<i class="fa-solid fa-box"></i> Visualizzazione stile card';
+            }
+        });
     });
 </script>

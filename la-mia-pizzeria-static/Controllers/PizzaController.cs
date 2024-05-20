@@ -72,6 +72,11 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Update", pizza); // Ritorna alla view in cui è presente il form di modifica
             }
 
+            // Trova la pizza esistente
+            var pizzaDaModificare = PizzaManager.GetPizzaById(id);
+            if (pizzaDaModificare == null)
+                return NotFound();
+
             // MODIFICA CON LA FUNZIONE LAMBDA
             bool result = PizzaManager.UpdatePizza(id, pizzaModificata =>
             {

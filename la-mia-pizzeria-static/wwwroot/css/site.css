@@ -97,6 +97,11 @@ li {
     --bs-gutter-x: 0;
 }
 
+.form-check-input:checked {
+    background-color: #219652;
+    border-color: #219652;
+}
+
 /* FOOTER */
 footer {
     background-image: url('../img/sfondo-header-footer.png');
