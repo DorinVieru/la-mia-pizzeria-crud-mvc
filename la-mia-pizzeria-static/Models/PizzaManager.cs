@@ -41,8 +41,8 @@ namespace la_mia_pizzeria_static.Models
             return db.Pizze.ToList();
         }
 
-        // MODIFICARE UNA PIZZA
-        public static bool UpdatePizza(int id, Pizze pizza)
+        // MODIFICARE UNA PIZZA (definendo come parametro ciò che voglio modificare)
+        public static bool UpdatePizza(int id, Action<Pizze> edit)
         {
             try
             {
@@ -51,10 +51,7 @@ namespace la_mia_pizzeria_static.Models
                 if (pizzaModificata == null)
                     return false;
 
-                pizzaModificata.Name = pizza.Name;
-                pizzaModificata.Description = pizza.Description;
-                pizzaModificata.Img = pizza.Img;
-                pizzaModificata.Price = pizza.Price;
+                edit(pizzaModificata);
 
                 db.SaveChanges();
                 return true;

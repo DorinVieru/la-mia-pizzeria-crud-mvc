@@ -28,12 +28,12 @@ namespace la_mia_pizzeria_static.Models
 
         public Pizze() { }
 
-        public Pizze(string name, string description, string img, double price)
-        {
-            this.Name = name;
-            this.Description = description;
-            this.Img = img;
-            this.Price = price;
-        }
+        //public Pizze(string name, string description, string img, double price)
+        //{
+        //    this.Name = name;
+        //    this.Description = description;
+        //    this.Img = img;
+        //    this.Price = price;
+        //}
     }
 }

@@ -22,7 +22,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View(pizza);
         }
 
-        // Action GET che fornisce la view della FORM per CREARE la pizza
+        // CREAZIONE GET
         [HttpGet]
         public IActionResult Create()
         {
@@ -32,7 +32,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View(model);
         }
 
-        // Chiamata POST che avviene tramite il form passandogli i dati della pizza INSERITA
+        // CREAZIONE POST che avviene tramite il form passandogli i dati della pizza
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create (PizzaFormModel pizza)
@@ -46,32 +46,49 @@ namespace la_mia_pizzeria_static.Controllers
             return RedirectToAction("Index");
         }
 
-        // Action GET che fornisce la view della FORM per MODIFICA la pizza
+        // MODIFICA GET 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var pizzaId = PizzaManager.GetPizzaById(id);
-            if (pizzaId == null)
+            var pizzaModificata = PizzaManager.GetPizzaById(id);
+            if (pizzaModificata == null)
                 return NotFound();
 
-            return View(pizzaId);
+            PizzaFormModel model = new PizzaFormModel();
+            model.Pizza = pizzaModificata;
+            model.Categories = PizzaManager.GetAllCategories();
+            return View(model);
         }
 
-        // Chiamata POST che avviene tramite il form passandogli i dati della pizza da MODIFICARE
+        // MODIFICA POST che avviene tramite il form passandogli i dati della pizza
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizze pizza)
+        public IActionResult Update(int id, PizzaFormModel pizza)
         {
             if (!ModelState.IsValid)
             {
+                List<Category> categories = PizzaManager.GetAllCategories();
+                pizza.Categories = categories;
                 return View("Update", pizza); // Ritorna alla view in cui è presente il form di modifica
             }
 
-            PizzaManager.UpdatePizza(id, pizza);
-            return RedirectToAction("Index");
+            // MODIFICA CON LA FUNZIONE LAMBDA
+            bool result = PizzaManager.UpdatePizza(id, pizzaModificata =>
+            {
+                pizzaModificata.Name = pizza.Pizza.Name;
+                pizzaModificata.Description = pizza.Pizza.Description;
+                pizzaModificata.Img = pizza.Pizza.Img;
+                pizzaModificata.Price = pizza.Pizza.Price;
+                pizzaModificata.CategoryId = pizza.Pizza.CategoryId;
+            });
+            
+            if (result)
+                return RedirectToAction("Index");
+            else
+                return NotFound();
         }
 
-        // Chiamata POST che avviene tramite il form passandogli i dati della pizza da MODIFICARE
+        // CNACELLAZIONE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

@@ -1,4 +1,5 @@
-﻿@model Pizze
+﻿@using la_mia_pizzeria_static.Models
+@model PizzaFormModel
 
 @{
     ViewData["Title"] = "Modifica la tua pizza";
@@ -11,27 +12,47 @@
             <h2>Modifica la <span class="text-danger">tua pizza</span> personalizzata</h2>
         </div>
         <div class="col-7">
-            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Id" method="post" class="my-4">
+            
+
+            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post">
                 @Html.AntiForgeryToken()
+               
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
-                    <input asp-for="Name" class="form-control" id="name" />
-                    <span asp-validation-for="Name" class="text-danger fw-bold"></span>
+                    <input asp-for="Pizza.Name" class="form-control" id="name" />
+                    <span asp-validation-for="Pizza.Name" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrizione della pizza</label>
-                    <textarea asp-for="Description" class="form-control" id="description" rows="4"></textarea>
-                    <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+                    <textarea asp-for="Pizza.Description" class="form-control" id="description" rows="4"></textarea>
+                    <span asp-validation-for="Pizza.Description" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Immagine</label>
-                    <input asp-for="Img" class="form-control" id="img" />
-                    <span asp-validation-for="Img" class="text-danger fw-bold"></span>
+                    <input asp-for="Pizza.Img" class="form-control" id="img" />
+                    <span asp-validation-for="Pizza.Img" class="text-danger fw-bold"></span>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Prezzo</label>
-                    <input asp-for="Price" class="form-control" id="price" />
-                    <span asp-validation-for="Price" class="text-danger fw-bold"></span>
+                    <input asp-for="Pizza.Price" class="form-control" id="price" />
+                    <span asp-validation-for="Pizza.Price" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Categoria da assegnare:</label>
+                    <select asp-for="Pizza.CategoryId" rows="10" class="form-select">
+                        <option value=""></option>
+                        @foreach (Category category in Model.Categories)
+                        {
+                            @if (Model.Pizza.CategoryId == category.Id)
+                            {
+                                <option value="@category.Id" selected>@category.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        }
+                    </select>
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-success px-5" value="Modifica la tua Pizza">
