@@ -1,0 +1,48 @@
+﻿@model Pizze
+
+@{
+    ViewData["Title"] = "Modifica la tua pizza";
+    Layout = "_PizzeriaLayout";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <h2>Modifica la <span class="text-danger">tua pizza</span> personalizzata</h2>
+        </div>
+        <div class="col-7">
+            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Id" method="post" class="my-4">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome</label>
+                    <input asp-for="Name" class="form-control" id="name" />
+                    <span asp-validation-for="Name" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descrizione della pizza</label>
+                    <textarea asp-for="Description" class="form-control" id="description" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="form-label">Immagine</label>
+                    <input asp-for="Img" class="form-control" id="img" />
+                    <span asp-validation-for="Img" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Prezzo</label>
+                    <input asp-for="Price" class="form-control" id="price" />
+                    <span asp-validation-for="Price" class="text-danger fw-bold"></span>
+                </div>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-success px-5" value="Modifica la tua Pizza">
+                </div>
+            </form>
+        </div>
+        <div class="col-12 my-5 text-center">
+            <a href="@Url.Action("Index", "Pizza")" class="btn btn-primary">Torna all'elenco di tutte le pizze</a>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Ricomincia dalla Home</a>
+        </div>
+    </div>
+
+</div>
+
