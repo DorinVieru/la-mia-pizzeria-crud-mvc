@@ -38,12 +38,15 @@
                             <h5 class="card-title">@pizza.Name</h5>
                             <p class="card-text">@pizza.Description</p>
                             <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
-                            <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto">Scopri i suoi ingredienti</a>
-                            <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2">Modifica un pizza già eseistente</a>
-                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                            @*VISUALIZZAZIONE DETTAGLI*@
+                            <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto"><i class="fa-solid fa-eye"></i> Visualizza dettagli</a>
+                            @*MODIFICA*@
+                            <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i> Modifica</a>
+                            @*CANCELLAZIONE*@
+                            <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger px-5">
-                                    Cancella una pizza
+                                <button type="button" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                    <i class="fa-solid fa-trash"></i> Cancella
                                 </button>
                             </form>
                         </div>
@@ -57,3 +60,38 @@
         <p class="text-danger fs-4 fw-bold py-5">Nessuna pizza disponibile al momento.</p>
     }
 </div>
+
+<!-- MODALE -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Conferma Cancellazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Sei sicuro di voler cancellare la pizza <span id="pizzaName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Conferma</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT PER LA MODALE --> 
+<script>
+    let formIdToDelete = null;
+
+    function setFormId(formId, pizzaName) {
+        formIdToDelete = formId;
+        document.getElementById('pizzaName').textContent = pizzaName;
+    }
+
+    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        if (formIdToDelete) {
+            document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
+        }
+    });
+</script>
