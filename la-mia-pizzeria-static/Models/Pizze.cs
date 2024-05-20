@@ -23,6 +23,8 @@ namespace la_mia_pizzeria_static.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "Il prezzo della pizza deve essere superiore a 0,00€.")]
         [RegularExpression(@"^\d+\,\d{0,2}$", ErrorMessage = "Il prezzo della pizza deve essere in formato numerico con massimo due decimali.")]
         public double Price { get; set; }
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         public Pizze() { }
 
