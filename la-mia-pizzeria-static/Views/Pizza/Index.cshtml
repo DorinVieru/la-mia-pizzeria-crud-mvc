@@ -1,4 +1,4 @@
-﻿@model List<la_mia_pizzeria_static.Models.Pizze>
+﻿@model List<Pizze>
 
 @{
     ViewData["Title"] = "Le nostre pizza";
@@ -39,6 +39,13 @@
                             <p class="card-text">@pizza.Description</p>
                             <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
                             <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto">Scopri i suoi ingredienti</a>
+                            <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2">Modifica un pizza già eseistente</a>
+                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger px-5">
+                                    Cancella una pizza
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
