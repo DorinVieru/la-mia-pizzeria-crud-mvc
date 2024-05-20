@@ -60,6 +60,24 @@ namespace la_mia_pizzeria_static.Models
             }
         }
 
-        
+        public static bool DeletePizza(int id)
+        {
+            try
+            {
+                var pizzaCancellata = GetPizzaById(id);
+                if (pizzaCancellata == null)
+                    return false;
+
+                using PizzaContext context = new PizzaContext();
+                context.Remove(pizzaCancellata);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
+        }
     }
 }
