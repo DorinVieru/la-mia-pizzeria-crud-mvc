@@ -36,5 +36,30 @@ namespace la_mia_pizzeria_static.Models
 
             return context.Pizze.ToList();
         }
+
+        public static bool UpdatePizza(int id, Pizze pizza)
+        {
+            try
+            {
+                using PizzaContext context = new PizzaContext();
+                var pizzaModificata = context.Pizze.FirstOrDefault(p => p.Id == id);
+                if (pizzaModificata == null)
+                    return false;
+
+                pizzaModificata.Name = pizza.Name;
+                pizzaModificata.Description = pizza.Description;
+                pizzaModificata.Img = pizza.Img;
+                pizzaModificata.Price = pizza.Price;
+
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        
     }
 }
