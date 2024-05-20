@@ -22,14 +22,14 @@ namespace la_mia_pizzeria_static.Controllers
             return View(pizza);
         }
 
-        // Action GET che fornisce la view della FORM
+        // Action GET che fornisce la view della FORM per CREARE la pizza
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // Chiamata POST che avviene tramite il form passandogli i dati della pizza inserita
+        // Chiamata POST che avviene tramite il form passandogli i dati della pizza INSERITA
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create (Pizze pizza)
@@ -42,5 +42,32 @@ namespace la_mia_pizzeria_static.Controllers
             PizzaManager.InsertPizza(pizza.Name, pizza.Description, pizza.Img, pizza.Price);
             return RedirectToAction("Index");
         }
+
+        // Action GET che fornisce la view della FORM per MODIFICA la pizza
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var pizzaId = PizzaManager.GetPizzaById(id);
+            if (pizzaId == null)
+                return NotFound();
+
+            return View(pizzaId);
+        }
+
+        // Chiamata POST che avviene tramite il form passandogli i dati della pizza da MODIFICARE
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Pizze pizza)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Update", pizza); // Ritorna alla view in cui è presente il form di modifica
+            }
+
+            PizzaManager.UpdatePizza(id, pizza);
+            return RedirectToAction("Index");
+        }
+
+        
     }
 }
