@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Linq;
 
 namespace la_mia_pizzeria_static.Models
@@ -6,11 +7,11 @@ namespace la_mia_pizzeria_static.Models
     public class PizzaManager
     {
         // AGGIUNTA DI UNA PIZZA
-        public static void InsertPizza(string name, string description, string img, double price)
+        public static void InsertPizza(Pizze Pizza)
         {
             using PizzaContext db = new PizzaContext();
 
-            db.Add(new Pizze(name, description, img, price));
+            db.Pizze.Add(Pizza);
             db.SaveChanges();
 
         }

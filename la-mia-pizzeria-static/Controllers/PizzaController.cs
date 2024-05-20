@@ -35,14 +35,14 @@ namespace la_mia_pizzeria_static.Controllers
         // Chiamata POST che avviene tramite il form passandogli i dati della pizza INSERITA
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create (Pizze pizza)
+        public IActionResult Create (PizzaFormModel pizza)
         {
             if (!ModelState.IsValid)
             {
                 return View("Create", pizza); // Ritorna alla view in cui è presente il form
             }
 
-            PizzaManager.InsertPizza(pizza.Name, pizza.Description, pizza.Img, pizza.Price);
+            PizzaManager.InsertPizza(pizza.Pizza);
             return RedirectToAction("Index");
         }
 
