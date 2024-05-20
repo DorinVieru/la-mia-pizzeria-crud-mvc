@@ -26,7 +26,10 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            PizzaFormModel model = new PizzaFormModel();
+            model.Pizza = new Pizze();
+            model.Categories = PizzaManager.GetAllCategories();
+            return View(model);
         }
 
         // Chiamata POST che avviene tramite il form passandogli i dati della pizza INSERITA

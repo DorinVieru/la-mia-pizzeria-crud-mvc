@@ -5,22 +5,24 @@ namespace la_mia_pizzeria_static.Models
 {
     public class PizzaManager
     {
+        // AGGIUNTA DI UNA PIZZA
         public static void InsertPizza(string name, string description, string img, double price)
         {
-            using PizzaContext context = new PizzaContext();
+            using PizzaContext db = new PizzaContext();
 
-            context.Add(new Pizze(name, description, img, price));
-            context.SaveChanges();
+            db.Add(new Pizze(name, description, img, price));
+            db.SaveChanges();
 
         }
 
+        // RECUPERARE UN PIZZA TRAMITE IL SUO ID
         public static Pizze GetPizzaById(int id)
         {
             try
             {
-                using PizzaContext context = new PizzaContext();
+                using PizzaContext db = new PizzaContext();
 
-                return context.Pizze.FirstOrDefault(p => p.Id == id);
+                return db.Pizze.FirstOrDefault(p => p.Id == id);
 
             }
             catch (Exception ex)
@@ -30,19 +32,21 @@ namespace la_mia_pizzeria_static.Models
             }
         }
 
+        // OTTENERE LA LISTA DI TUTTE LE PIZZE
         public static List<Pizze> GetAllPizze()
         {
-            using var context = new PizzaContext();
+            using var db = new PizzaContext();
 
-            return context.Pizze.ToList();
+            return db.Pizze.ToList();
         }
 
+        // MODIFICARE UNA PIZZA
         public static bool UpdatePizza(int id, Pizze pizza)
         {
             try
             {
-                using PizzaContext context = new PizzaContext();
-                var pizzaModificata = context.Pizze.FirstOrDefault(p => p.Id == id);
+                using PizzaContext db = new PizzaContext();
+                var pizzaModificata = db.Pizze.FirstOrDefault(p => p.Id == id);
                 if (pizzaModificata == null)
                     return false;
 
@@ -51,7 +55,7 @@ namespace la_mia_pizzeria_static.Models
                 pizzaModificata.Img = pizza.Img;
                 pizzaModificata.Price = pizza.Price;
 
-                context.SaveChanges();
+                db.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -60,6 +64,7 @@ namespace la_mia_pizzeria_static.Models
             }
         }
 
+        // CANCELLARE UNA PIZZA
         public static bool DeletePizza(int id)
         {
             try
@@ -68,9 +73,9 @@ namespace la_mia_pizzeria_static.Models
                 if (pizzaCancellata == null)
                     return false;
 
-                using PizzaContext context = new PizzaContext();
-                context.Remove(pizzaCancellata);
-                context.SaveChanges();
+                using PizzaContext db = new PizzaContext();
+                db.Remove(pizzaCancellata);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -78,6 +83,13 @@ namespace la_mia_pizzeria_static.Models
                 return false;
 
             }
+        }
+
+        // PRENDERE TUTTE LE CATEGORIE DELLE PIZZE
+        public static List<Category> GetAllCategories()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Categories.ToList();
         }
     }
 }
