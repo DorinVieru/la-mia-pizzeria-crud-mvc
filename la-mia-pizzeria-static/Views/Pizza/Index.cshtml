@@ -1,4 +1,6 @@
-﻿@model List<Pizze>
+﻿@using la_mia_pizzeria_static.Models
+@using la_mia_pizzeria_static.Code
+@model List<Pizze>
 
 @{
     ViewData["Title"] = "Le nostre pizza";
@@ -9,7 +11,7 @@
     <div class="container-fluid position-relative jumbo">
         <div class="overlay"></div>
         <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
-            <h1 class="fw-bold display-4">Pizze bomba!</h1>
+            <h1 class="fw-bold display-5 fst-italic">Espolora la nostra storia, conosciti attraverso il gusto unico della Tradizione</h1>
         </div>
     </div>
 }
@@ -41,6 +43,7 @@
 
     @if (Model.Any())
     {
+        // CARD
         <div id="cardView" class="row row-cols-1 row-cols-md-3 mt-3">
             @foreach (var pizza in Model)
             {
@@ -67,7 +70,7 @@
                 </div>
             }
         </div>
-
+        // TABELLA
         <div id="tableView" class="d-none mt-3">
             <table class="table table-striped">
                 <thead>
@@ -83,7 +86,7 @@
                     {
                         <tr>
                             <td>@pizza.Name</td>
-                            <td>@pizza.Description</td>
+                            <td>@($"{pizza.Description.SafeSubstring(10)}")</td>
                             <td>€ @pizza.Price.ToString("0.00")</td>
                             <td>
                                 <a href="@Url.Action("Details", "Pizza", new { id = pizza.Id })" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>

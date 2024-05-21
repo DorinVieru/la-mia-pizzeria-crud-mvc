@@ -14,7 +14,7 @@
         <div class="col-7">
             
 
-            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post" class="my-4 bg-success rounded-3 p-4 text-white">
+            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" enctype="multipart/form-data" method="post" class="my-4 bg-success rounded-3 p-4 text-white">
                 @Html.AntiForgeryToken()
 
                 <div class="mb-3">
@@ -30,7 +30,7 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="img" class="form-label">Immagine</label>
-                        <input type="text" asp-for="Pizza.Img" class="form-control" id="img" />
+                        <input type="file" asp-for="Pizza.Img" name="img" class="form-control" id="img" multiple />
                         <span asp-validation-for="Pizza.Img" class="text-danger fw-bold"></span>
                     </div>
                     <div class="col">
@@ -56,7 +56,7 @@
                         }
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="mb-5">
                     <label for="ingredient" class="form-label">Seleziona degli ingredienti:</label>
                     <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
                         @for (int i = 0; i < Model.Ingredients.Count; i++)

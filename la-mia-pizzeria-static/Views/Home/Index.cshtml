@@ -4,11 +4,46 @@
 }
 
 @section JumboSection {
-    <div class="container-fluid position-relative jumbo jumbo-home">
-        <div class="overlay"></div>
-        <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
-            <h1 class="fw-bold display-5 fst-italic">Espolora la nostra storia, conosciti attraverso il gusto unico della Tradizione</h1>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="height: 50vh;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
+        <div class="carousel-inner h-100">
+            <div class="carousel-item active carousel-dark-overlay">
+                <img src="~/img/about-1.jpg" class="w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="text-warning fs-4 fw-semibold">Fedeli alla Tradizione</h5>
+                    <p class="fs-3 fw-bold">Conosciti attraverso il gusto unico della Tradizione</p>
+                    <a href="@Url.Action("Index", "Pizza")" class="btn btn-warning text-smallcaps fs-5 fw-semibold my-2">Esplora</a>
+                </div>
+            </div>
+            <div class="carousel-item carousel-dark-overlay">
+                <img src="~/img/jumbo-pizza.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="text-warning fs-4 fw-semibold">Pizza Bomba!</h5>
+                    <p class="fs-3 fw-bold">Te ne innamori e non potrai più farne a meno</p>
+                    <a href="@Url.Action("Index", "Pizza")" class="btn btn-warning text-smallcaps fs-5 fw-semibold my-2">Esplora</a>
+                </div>
+            </div>
+            <div class="carousel-item carousel-dark-overlay">
+                <img src="~/img/about-2.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="text-warning fs-4 fw-semibold">La pizza che stavi cercando</h5>
+                    <p class="fs-3 fw-bold">Assapora e goditi l'esperienza culinaria della pizza italiana</p>
+                    <a href="@Url.Action("Index", "Pizza")" class="btn btn-warning text-smallcaps fs-5 fw-semibold my-2">Esplora</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 }
 
