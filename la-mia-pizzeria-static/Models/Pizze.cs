@@ -35,5 +35,12 @@ namespace la_mia_pizzeria_static.Models
         //    this.Img = img;
         //    this.Price = price;
         //}
+
+        public string ViewCategory()
+        {
+            if (Category == null)
+                return "Nessuna categoria assegnata.";
+            return Category.Title;
+        }
     }
 }

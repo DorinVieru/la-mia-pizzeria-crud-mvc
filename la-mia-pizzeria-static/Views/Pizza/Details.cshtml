@@ -18,6 +18,7 @@
                         <div class="card-body">
                             <p class="card-text fs-5">Descizione: @Model.Description</p>
                             <p class="card-text fs-5"> Prezzo: <strong class="text-success"> € @Model.Price.ToString("0.00")</strong></p>
+                            <p class="card-text">Categoria: @($"{Model.ViewCategory()}")</p>
                         </div>
                     </div>
                 </div>

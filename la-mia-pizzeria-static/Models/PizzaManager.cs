@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 
@@ -17,12 +18,14 @@ namespace la_mia_pizzeria_static.Models
         }
 
         // RECUPERARE UN PIZZA TRAMITE IL SUO ID
-        public static Pizze GetPizzaById(int id)
+        public static Pizze GetPizzaById(int id, bool includeReferences = true)
         {
             try
             {
                 using PizzaContext db = new PizzaContext();
 
+                if (includeReferences)
+                    return db.Pizze.Where(p => p.Id == id).Include(p => p.Category).FirstOrDefault();
                 return db.Pizze.FirstOrDefault(p => p.Id == id);
 
             }

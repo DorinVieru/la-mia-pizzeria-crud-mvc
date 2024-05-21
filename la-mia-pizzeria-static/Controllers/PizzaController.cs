@@ -14,7 +14,7 @@ namespace la_mia_pizzeria_static.Controllers
 
         public IActionResult Details(int id)
         {
-            var pizza = PizzaManager.GetPizzaById(id);
+            var pizza = PizzaManager.GetPizzaById(id, true);
             if (pizza == null)
             {
                 return NotFound();
