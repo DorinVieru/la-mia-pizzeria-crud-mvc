@@ -57,24 +57,70 @@ namespace la_mia_pizzeria_static.Models
         }
 
         // MODIFICARE UNA PIZZA (definendo come parametro ciò che voglio modificare)
-        public static bool UpdatePizza(int id, Action<Pizze> edit)
+        //public static bool UpdatePizza(int id, Action<Pizze> edit, List<string> ingredientIds)
+        //{
+        //    try
+        //    {
+        //        using PizzaContext db = new PizzaContext();
+        //        var pizzaModificata = db.Pizze.Include(p => p.Ingredients).FirstOrDefault(p => p.Id == id);
+        //        if (pizzaModificata == null)
+        //            return false;
+
+        //        edit(pizzaModificata);
+
+        //        // Modifica degli ingredienti
+        //        pizzaModificata.Ingredients.Clear();
+        //        if (ingredientIds != null)
+        //        {
+        //            foreach (var ingredientId in ingredientIds)
+        //            {
+        //                int ingredientIdInt = int.Parse(ingredientId);
+        //                var ingredientFromDb = db.Ingredients.FirstOrDefault(x => x.Id == id);
+        //                if (ingredientFromDb != null)
+        //                {
+        //                    pizzaModificata.Ingredients.Add(ingredientFromDb);
+        //                }
+        //            }
+        //        }
+
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        // MODIFICARE UNA PIZZA
+        public static bool UpdatePizza(int id, Pizze pizzaData, List<string> ingredients)
         {
-            try
-            {
-                using PizzaContext db = new PizzaContext();
-                var pizzaModificata = db.Pizze.FirstOrDefault(p => p.Id == id);
-                if (pizzaModificata == null)
-                    return false;
+            using PizzaContext db = new PizzaContext();
+            var pizza = db.Pizze.Where(x => x.Id == id).Include(x => x.Ingredients).FirstOrDefault();
 
-                edit(pizzaModificata);
-
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
+            if (pizza == null)
                 return false;
+
+            pizza.Name = pizzaData.Name;
+            pizza.Description = pizzaData.Description;
+            pizza.Img = pizzaData.Img;
+            pizza.Price = pizzaData.Price;
+            pizza.CategoryId = pizzaData.CategoryId;
+
+            pizza.Ingredients.Clear(); // Prima svuoto così da salvare solo le informazioni che l'utente ha scelto, NON le aggiungiamo ai vecchi dati
+            if (ingredients != null)
+            {
+                foreach (var tag in ingredients)
+                {
+                    int tagId = int.Parse(tag);
+                    var tagFromDb = db.Ingredients.FirstOrDefault(x => x.Id == tagId);
+                    pizza.Ingredients.Add(tagFromDb);
+                }
             }
+
+            db.SaveChanges();
+
+            return true;
         }
 
         // CANCELLARE UNA PIZZA
@@ -110,6 +156,6 @@ namespace la_mia_pizzeria_static.Models
         {
             using PizzaContext db = new PizzaContext();
             return db.Ingredients.ToList();
-        }
+        }  
     }
 }

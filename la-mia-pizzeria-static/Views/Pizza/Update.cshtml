@@ -62,7 +62,7 @@
                         @for (int i = 0; i < Model.Ingredients.Count; i++)
                         {
                             string ingredientId = "ingredient" + i;
-                            <input type="checkbox" class="btn-check" id="@ingredientId" name="SelectedTags" value="@Model.Ingredients[i].Value"
+                            <input type="checkbox" class="btn-check" id="@ingredientId" name="SelectedIngredients" value="@Model.Ingredients[i].Value"
                                    @(Model.SelectedIngredients.Contains(Model.Ingredients[i].Value) ? "checked" : "") autocomplete="off" />
                             <label class="btn btn-outline-light m-1" for="@ingredientId">@Model.Ingredients[i].Text</label>
                         }

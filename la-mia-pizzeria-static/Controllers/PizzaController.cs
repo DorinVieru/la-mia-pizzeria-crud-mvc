@@ -62,6 +62,7 @@ namespace la_mia_pizzeria_static.Controllers
             PizzaFormModel model = new PizzaFormModel();
             model.Pizza = pizzaModificata;
             model.Categories = PizzaManager.GetAllCategories();
+            model.CreateIngredients();
             return View(model);
         }
 
@@ -72,22 +73,22 @@ namespace la_mia_pizzeria_static.Controllers
         {
             if (!ModelState.IsValid)
             {
-                List<Category> categories = PizzaManager.GetAllCategories();
-                pizzaDaModificare.Categories = categories;
+                pizzaDaModificare.Categories = PizzaManager.GetAllCategories();
+                pizzaDaModificare.CreateIngredients();
                 return View("Update", pizzaDaModificare); // Ritorna alla view in cui è presente il form di modifica
             }
 
             // MODIFICA CON LA FUNZIONE LAMBDA
-            bool result = PizzaManager.UpdatePizza(id, p =>
-            {
-                p.Name = pizzaDaModificare.Pizza.Name;
-                p.Description = pizzaDaModificare.Pizza.Description;
-                p.Img = pizzaDaModificare.Pizza.Img;
-                p.Price = pizzaDaModificare.Pizza.Price;
-                p.CategoryId = pizzaDaModificare.Pizza.CategoryId;
-            });
-            
-            if (result)
+            //bool result = PizzaManager.UpdatePizza(id, p =>
+            //{
+            //    p.Name = pizzaDaModificare.Pizza.Name;
+            //    p.Description = pizzaDaModificare.Pizza.Description;
+            //    p.Img = pizzaDaModificare.Pizza.Img;
+            //    p.Price = pizzaDaModificare.Pizza.Price;
+            //    p.CategoryId = pizzaDaModificare.Pizza.CategoryId;
+            //}, pizzaDaModificare.SelectedIngredients);
+
+            if (PizzaManager.UpdatePizza(id, pizzaDaModificare.Pizza, pizzaDaModificare.SelectedIngredients))
                 return RedirectToAction("Index");
             else
                 return NotFound();
