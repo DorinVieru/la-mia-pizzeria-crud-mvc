@@ -8,9 +8,21 @@ namespace la_mia_pizzeria_static.Models
     public class PizzaManager
     {
         // AGGIUNTA DI UNA PIZZA
-        public static void InsertPizza(Pizze Pizza)
+        public static void InsertPizza(Pizze Pizza, List<string> SelectedIngredients = null)
         {
             using PizzaContext db = new PizzaContext();
+
+            if (SelectedIngredients != null)
+            {
+                Pizza.Ingredients = new List<Ingredient>();
+                // Trasformo gli ID scelti nel form in ingredienti da ggiungere alle pizze
+                foreach (var ingId in SelectedIngredients)
+                {
+                    int id = int.Parse(ingId);
+                    var ing = db.Ingredients.FirstOrDefault(i => i.Id == id);
+                    Pizza.Ingredients.Add(ing);
+                }
+            }
 
             db.Pizze.Add(Pizza);
             db.SaveChanges();

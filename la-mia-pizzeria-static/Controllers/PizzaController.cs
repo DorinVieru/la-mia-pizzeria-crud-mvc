@@ -42,12 +42,12 @@ namespace la_mia_pizzeria_static.Controllers
         {
             if (!ModelState.IsValid)
             {
-                List<Category> categories = PizzaManager.GetAllCategories();
-                pizzaDaInserire.Categories = categories;
+                pizzaDaInserire.Categories = PizzaManager.GetAllCategories();
+                pizzaDaInserire.CreateIngredients();
                 return View("Create", pizzaDaInserire); // Ritorna alla view in cui è presente il form
             }
 
-            PizzaManager.InsertPizza(pizzaDaInserire.Pizza);
+            PizzaManager.InsertPizza(pizzaDaInserire.Pizza, pizzaDaInserire.SelectedIngredients);
             return RedirectToAction("Index");
         }
 
