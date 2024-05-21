@@ -14,9 +14,9 @@
         <div class="col-7">
             
 
-            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post">
+            <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post" class="my-4 bg-success rounded-3 p-4 text-white">
                 @Html.AntiForgeryToken()
-               
+
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
                     <input asp-for="Pizza.Name" class="form-control" id="name" />
@@ -27,15 +27,17 @@
                     <textarea asp-for="Pizza.Description" class="form-control" id="description" rows="4"></textarea>
                     <span asp-validation-for="Pizza.Description" class="text-danger fw-bold"></span>
                 </div>
-                <div class="mb-3">
-                    <label for="img" class="form-label">Immagine</label>
-                    <input asp-for="Pizza.Img" class="form-control" id="img" />
-                    <span asp-validation-for="Pizza.Img" class="text-danger fw-bold"></span>
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Prezzo</label>
-                    <input asp-for="Pizza.Price" class="form-control" id="price" />
-                    <span asp-validation-for="Pizza.Price" class="text-danger fw-bold"></span>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="img" class="form-label">Immagine</label>
+                        <input type="text" asp-for="Pizza.Img" class="form-control" id="img" />
+                        <span asp-validation-for="Pizza.Img" class="text-danger fw-bold"></span>
+                    </div>
+                    <div class="col">
+                        <label for="price" class="form-label">Prezzo</label>
+                        <input type="text" asp-for="Pizza.Price" class="form-control" id="price" />
+                        <span asp-validation-for="Pizza.Price" class="text-danger fw-bold"></span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Categoria da assegnare:</label>
@@ -54,8 +56,21 @@
                         }
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="ingredient" class="form-label">Seleziona degli ingredienti:</label>
+                    <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
+                        @for (int i = 0; i < Model.Ingredients.Count; i++)
+                        {
+                            string ingredientId = "ingredient" + i;
+                            <input type="checkbox" class="btn-check" id="@ingredientId" name="SelectedTags" value="@Model.Ingredients[i].Value"
+                                   @(Model.SelectedIngredients.Contains(Model.Ingredients[i].Value) ? "checked" : "") autocomplete="off" />
+                            <label class="btn btn-outline-light m-1" for="@ingredientId">@Model.Ingredients[i].Text</label>
+                        }
+                    </div>
+                </div>
                 <div class="text-center">
-                    <input type="submit" class="btn btn-success px-5" value="Modifica la tua Pizza">
+                    <a asp-action="Index" class="btn btn-secondary px-5">Annulla</a>
+                    <input type="submit" class="btn btn-danger px-5" value="Modifica la tua Pizza">
                 </div>
             </form>
         </div>
