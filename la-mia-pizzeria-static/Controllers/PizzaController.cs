@@ -35,14 +35,16 @@ namespace la_mia_pizzeria_static.Controllers
         // CREAZIONE POST che avviene tramite il form passandogli i dati della pizza
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create (PizzaFormModel pizza)
+        public IActionResult Create (PizzaFormModel pizzaDaInserire)
         {
             if (!ModelState.IsValid)
             {
-                return View("Create", pizza); // Ritorna alla view in cui è presente il form
+                List<Category> categories = PizzaManager.GetAllCategories();
+                pizzaDaInserire.Categories = categories;
+                return View("Create", pizzaDaInserire); // Ritorna alla view in cui è presente il form
             }
 
-            PizzaManager.InsertPizza(pizza.Pizza);
+            PizzaManager.InsertPizza(pizzaDaInserire.Pizza);
             return RedirectToAction("Index");
         }
 
@@ -63,28 +65,23 @@ namespace la_mia_pizzeria_static.Controllers
         // MODIFICA POST che avviene tramite il form passandogli i dati della pizza
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, PizzaFormModel pizza)
+        public IActionResult Update(int id, PizzaFormModel pizzaDaModificare)
         {
             if (!ModelState.IsValid)
             {
                 List<Category> categories = PizzaManager.GetAllCategories();
-                pizza.Categories = categories;
-                return View("Update", pizza); // Ritorna alla view in cui è presente il form di modifica
+                pizzaDaModificare.Categories = categories;
+                return View("Update", pizzaDaModificare); // Ritorna alla view in cui è presente il form di modifica
             }
 
-            // Trova la pizza esistente
-            var pizzaDaModificare = PizzaManager.GetPizzaById(id);
-            if (pizzaDaModificare == null)
-                return NotFound();
-
             // MODIFICA CON LA FUNZIONE LAMBDA
-            bool result = PizzaManager.UpdatePizza(id, pizzaModificata =>
+            bool result = PizzaManager.UpdatePizza(id, p =>
             {
-                pizzaModificata.Name = pizza.Pizza.Name;
-                pizzaModificata.Description = pizza.Pizza.Description;
-                pizzaModificata.Img = pizza.Pizza.Img;
-                pizzaModificata.Price = pizza.Pizza.Price;
-                pizzaModificata.CategoryId = pizza.Pizza.CategoryId;
+                p.Name = pizzaDaModificare.Pizza.Name;
+                p.Description = pizzaDaModificare.Pizza.Description;
+                p.Img = pizzaDaModificare.Pizza.Img;
+                p.Price = pizzaDaModificare.Pizza.Price;
+                p.CategoryId = pizzaDaModificare.Pizza.CategoryId;
             });
             
             if (result)

@@ -4,5 +4,7 @@
     {
         public Pizze Pizza { get; set; }
         public List<Category>? Categories { get; set; }
+
+        public PizzaFormModel() { }
     }
 }
