@@ -19,18 +19,23 @@
     <p>Verrà automaticamente aggiunta all'elenco di tutte le pizze disponibili nel nostro rinomato ristorante.</p>
 </div>
 
-<div class="col-12 text-center">
-    <h3 class="fs-1">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
-    <p>
+<div class="col-12">
+    <h3 class="fs-1 text-center">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
+    <p class="text-center">
         Qui di seguito l'elenco di tutte le pizze disponibili nel nostro menù. <br />
         Ogni pizza è stata accuratamente scelta e creata per soddisfare ogni esigenza del cliente e vivere un'esperienza indimenticabile. <br />
         L'elenco è in costante aggiornamento e TU puoi contribuire a miglirarlo!
     </p>
 
-    <div class="mt-4 text-start form-check form-switch fs-5">
-        <input class="form-check-input" type="checkbox" id="toggleViewSwitch">
-        <label class="form-check-label" for="toggleViewSwitch">
-            <i class="fa-solid fa-box"></i> Visualizzazione stile card
+    <div class="btn-group mt-4" role="group" aria-label="View Switcher">
+        <input type="radio" class="btn-check" name="viewSwitcher" id="cardViewRadio" autocomplete="off" checked>
+        <label class="btn btn-outline-success" for="cardViewRadio">
+            <i class="fa-solid fa-box"></i> Card
+        </label>
+
+        <input type="radio" class="btn-check" name="viewSwitcher" id="tableViewRadio" autocomplete="off">
+        <label class="btn btn-outline-success" for="tableViewRadio">
+            <i class="fa-solid fa-table"></i> Tabella
         </label>
     </div>
 
@@ -51,12 +56,12 @@
                             @*MODIFICA*@
                             <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i> Modifica</a>
                             @*CANCELLAZIONE*@
-                            <a type="button" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
-                                <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <i class="fa-solid fa-trash"></i> Cancella
-                                </form>
+                            <a href="javascript:void(0);" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-form-id="@pizza.Id" data-pizza-name="@pizza.Name" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                Cancella
                             </a>
+                            <form id="deletePizzaForm-@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-none">
+                                @Html.AntiForgeryToken()
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -121,7 +126,7 @@
     </div>
 </div>
 
-<!-- JAVASCRIPT PER LA MODALE -->
+<!-- JAVASCRIPT PER LA MODALE E SWITCH -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let formIdToDelete = null;
@@ -131,25 +136,36 @@
             document.getElementById('pizzaName').textContent = pizzaName;
         }
 
+        // Assicurati che il setFormId sia disponibile globalmente
+        window.setFormId = setFormId;
+
         document.getElementById('confirmDeleteButton').addEventListener('click', function () {
             if (formIdToDelete) {
                 document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
             }
         });
 
-        document.getElementById('toggleViewSwitch').addEventListener('change', function () {
+        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+            if (formIdToDelete) {
+                document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
+            }
+        });
+
+        document.getElementById('cardViewRadio').addEventListener('change', function () {
             var cardView = document.getElementById('cardView');
             var tableView = document.getElementById('tableView');
-            var toggleLabel = document.querySelector('label[for="toggleViewSwitch"]');
+            if (this.checked) {
+                cardView.classList.remove('d-none');
+                tableView.classList.add('d-none');
+            }
+        });
 
+        document.getElementById('tableViewRadio').addEventListener('change', function () {
+            var cardView = document.getElementById('cardView');
+            var tableView = document.getElementById('tableView');
             if (this.checked) {
                 cardView.classList.add('d-none');
                 tableView.classList.remove('d-none');
-                toggleLabel.innerHTML = '<i class="fa-solid fa-table"></i> Visualizzazione stile tabella';
-            } else {
-                cardView.classList.remove('d-none');
-                tableView.classList.add('d-none');
-                toggleLabel.innerHTML = '<i class="fa-solid fa-box"></i> Visualizzazione stile card';
             }
         });
     });

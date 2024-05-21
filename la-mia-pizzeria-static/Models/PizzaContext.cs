@@ -10,6 +10,7 @@ namespace la_mia_pizzeria_static.Models
         private const string SqlServer = "Data Source=localhost;Initial Catalog=pizzas;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DbSet<Pizze> Pizze { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
