@@ -92,5 +92,12 @@ namespace la_mia_pizzeria_static.Models
             using PizzaContext db = new PizzaContext();
             return db.Categories.ToList();
         }
+
+        // PRENDERE TUTTE GLI INGREDIENTI DELLE PIZZE
+        public static List<Ingredient> GetAllIngredients()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Ingredients.ToList();
+        }
     }
 }
