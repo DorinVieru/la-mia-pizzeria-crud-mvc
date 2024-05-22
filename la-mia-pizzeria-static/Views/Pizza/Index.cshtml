@@ -3,167 +3,174 @@
 @model List<Pizze>
 
 @{
-    ViewData["Title"] = "Le nostre pizza";
+    ViewData["Title"] = "Le nostre pizze";
     Layout = "_PizzeriaLayout";
 }
 
-@section JumboSection {
-    <div class="container-fluid position-relative jumbo">
-        <div class="overlay"></div>
-        <div class="text-center text-white position-absolute top-50 start-50 translate-middle">
-            <h1 class="fw-bold display-5 fst-italic">Espolora la nostra storia, conosciti attraverso il gusto unico della Tradizione</h1>
+@if (User.IsInRole("Admin"))
+{
+    <div class="col-12 my-5 text-center">
+        <a href="@Url.Action("Create", "Pizza")" class="btn btn-danger fs-3 mb-2">Crea una nuova pizza!</a>
+        <p>Verrà automaticamente aggiunta all'elenco di tutte le pizze disponibili nel nostro rinomato ristorante.</p>
+    </div>
+
+    <div class="col-12">
+        <h3 class="fs-1 text-center">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
+        <p class="text-center">
+            Qui di seguito l'elenco di tutte le pizze disponibili nel nostro menù. <br />
+            Ogni pizza è stata accuratamente scelta e creata per soddisfare ogni esigenza del cliente e vivere un'esperienza indimenticabile. <br />
+            L'elenco è in costante aggiornamento e TU puoi contribuire a miglirarlo!
+        </p>
+
+        <div class="btn-group mt-4" role="group" aria-label="View Switcher">
+            <input type="radio" class="btn-check" name="viewSwitcher" id="cardViewRadio" autocomplete="off" checked>
+            <label class="btn btn-outline-success" for="cardViewRadio">
+                <i class="fa-solid fa-box"></i> Card
+            </label>
+
+            <input type="radio" class="btn-check" name="viewSwitcher" id="tableViewRadio" autocomplete="off">
+            <label class="btn btn-outline-success" for="tableViewRadio">
+                <i class="fa-solid fa-table"></i> Tabella
+            </label>
+        </div>
+
+        @if (Model.Any())
+        {
+            // CARD
+            <div id="cardView" class="row row-cols-1 row-cols-md-3 mt-3">
+                @foreach (var pizza in Model)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card my-list-card h-100 border-success mb-3" style="width: 22rem;">
+                            <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@pizza.Name</h5>
+                                <p class="card-text">@pizza.Description</p>
+                                <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
+                                @*VISUALIZZAZIONE DETTAGLI*@
+                                <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto"><i class="fa-solid fa-eye"></i> Visualizza dettagli</a>
+                                @*MODIFICA*@
+                                <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i> Modifica</a>
+                                @*CANCELLAZIONE*@
+                                <a href="javascript:void(0);" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-form-id="@pizza.Id" data-pizza-name="@pizza.Name" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                    Cancella
+                                </a>
+                                <form id="deletePizzaForm-@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-none">
+                                    @Html.AntiForgeryToken()
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            // TABELLA
+            <div id="tableView" class="d-none mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>Nome</th>
+                            <th>Descrizione</th>
+                            <th>Prezzo (€)</th>
+                            <th>Strumenti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pizza in Model)
+                        {
+                            <tr>
+                                <td>@pizza.Name</td>
+                                <td>@($"{pizza.Description.SafeSubstring(20)}")</td>
+                                <td>€ @pizza.Price.ToString("0.00")</td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Pizza", new { id = pizza.Id })" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id })" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-danger fs-4 fw-bold py-5">Nessuna pizza disponibile al momento.</p>
+        }
+    </div>
+
+    <!-- MODALE -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Conferma Cancellazione</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler cancellare la pizza <span id="pizzaName"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Conferma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT PER LA MODALE E SWITCH -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let formIdToDelete = null;
+
+            function setFormId(formId, pizzaName) {
+                formIdToDelete = formId;
+                document.getElementById('pizzaName').textContent = pizzaName;
+            }
+
+            // setFormId disponibile globalmente
+            window.setFormId = setFormId;
+
+            document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+                if (formIdToDelete) {
+                    document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
+                }
+            });
+
+            document.getElementById('cardViewRadio').addEventListener('change', function () {
+                var cardView = document.getElementById('cardView');
+                var tableView = document.getElementById('tableView');
+                if (this.checked) {
+                    cardView.classList.remove('d-none');
+                    tableView.classList.add('d-none');
+                }
+            });
+
+            document.getElementById('tableViewRadio').addEventListener('change', function () {
+                var cardView = document.getElementById('cardView');
+                var tableView = document.getElementById('tableView');
+                if (this.checked) {
+                    cardView.classList.add('d-none');
+                    tableView.classList.remove('d-none');
+                }
+            });
+        });
+    </script>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 mt-5 text-danger fw-bold">Non sei autorizzato ad accedere a questo contenuto.</h1>
+            </div>
+            <div class="col-12 my-5 text-center">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Ricomincia dalla Home</a>
+            </div>
         </div>
     </div>
 }
-
-<div class="col-12 my-5 text-center">
-    <a href="@Url.Action("Create", "Pizza")" class="btn btn-danger fs-3 mb-2">Crea una nuova pizza!</a>
-    <p>Verrà automaticamente aggiunta all'elenco di tutte le pizze disponibili nel nostro rinomato ristorante.</p>
-</div>
-
-<div class="col-12">
-    <h3 class="fs-1 text-center">La pizzeria che ti fa <span class="text-danger">esplodere</span></h3>
-    <p class="text-center">
-        Qui di seguito l'elenco di tutte le pizze disponibili nel nostro menù. <br />
-        Ogni pizza è stata accuratamente scelta e creata per soddisfare ogni esigenza del cliente e vivere un'esperienza indimenticabile. <br />
-        L'elenco è in costante aggiornamento e TU puoi contribuire a miglirarlo!
-    </p>
-
-    <div class="btn-group mt-4" role="group" aria-label="View Switcher">
-        <input type="radio" class="btn-check" name="viewSwitcher" id="cardViewRadio" autocomplete="off" checked>
-        <label class="btn btn-outline-success" for="cardViewRadio">
-            <i class="fa-solid fa-box"></i> Card
-        </label>
-
-        <input type="radio" class="btn-check" name="viewSwitcher" id="tableViewRadio" autocomplete="off">
-        <label class="btn btn-outline-success" for="tableViewRadio">
-            <i class="fa-solid fa-table"></i> Tabella
-        </label>
-    </div>
-
-    @if (Model.Any())
-    {
-        // CARD
-        <div id="cardView" class="row row-cols-1 row-cols-md-3 mt-3">
-            @foreach (var pizza in Model)
-            {
-                <div class="col-md-4 mb-3">
-                    <div class="card my-list-card h-100 border-success mb-3" style="width: 22rem;">
-                        <img src="@Url.Content(pizza.Img) " class="card-img-top" alt="@pizza.Name">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@pizza.Name</h5>
-                            <p class="card-text">@pizza.Description</p>
-                            <p class="text-success fw-bold fs-5">€ @pizza.Price.ToString("0.00")</p>
-                            @*VISUALIZZAZIONE DETTAGLI*@
-                            <a href="@Url.Action("Details", "Pizza", new {id = pizza.Id} )" class="btn btn-success mt-auto"><i class="fa-solid fa-eye"></i> Visualizza dettagli</a>
-                            @*MODIFICA*@
-                            <a href="@Url.Action("Update", "Pizza", new {id = pizza.Id})" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i> Modifica</a>
-                            @*CANCELLAZIONE*@
-                            <a href="javascript:void(0);" class="btn btn-danger px-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-form-id="@pizza.Id" data-pizza-name="@pizza.Name" onclick="setFormId('@pizza.Id', '@pizza.Name')">
-                                Cancella
-                            </a>
-                            <form id="deletePizzaForm-@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-none">
-                                @Html.AntiForgeryToken()
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        // TABELLA
-        <div id="tableView" class="d-none mt-3">
-            <table class="table table-striped">
-                <thead>
-                    <tr class="table-dark">
-                        <th>Nome</th>
-                        <th>Descrizione</th>
-                        <th>Prezzo (€)</th>
-                        <th>Strumenti</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var pizza in Model)
-                    {
-                        <tr>
-                            <td>@pizza.Name</td>
-                            <td>@($"{pizza.Description.SafeSubstring(20)}")</td>
-                            <td>€ @pizza.Price.ToString("0.00")</td>
-                            <td>
-                                <a href="@Url.Action("Details", "Pizza", new { id = pizza.Id })" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
-                                <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id })" class="btn btn-warning my-2"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <form id="deletePizzaForm-@pizza.Id" data-form-id="@pizza.Id" asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post" class="d-inline">
-                                    @Html.AntiForgeryToken()
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setFormId('@pizza.Id', '@pizza.Name')">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <p class="text-danger fs-4 fw-bold py-5">Nessuna pizza disponibile al momento.</p>
-    }
-</div>
-
-<!-- MODALE -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Conferma Cancellazione</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Sei sicuro di voler cancellare la pizza <span id="pizzaName"></span>?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Conferma</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- JAVASCRIPT PER LA MODALE E SWITCH -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let formIdToDelete = null;
-
-        function setFormId(formId, pizzaName) {
-            formIdToDelete = formId;
-            document.getElementById('pizzaName').textContent = pizzaName;
-        }
-
-        // setFormId disponibile globalmente
-        window.setFormId = setFormId;
-
-        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
-            if (formIdToDelete) {
-                document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
-            }
-        });
-
-        document.getElementById('cardViewRadio').addEventListener('change', function () {
-            var cardView = document.getElementById('cardView');
-            var tableView = document.getElementById('tableView');
-            if (this.checked) {
-                cardView.classList.remove('d-none');
-                tableView.classList.add('d-none');
-            }
-        });
-
-        document.getElementById('tableViewRadio').addEventListener('change', function () {
-            var cardView = document.getElementById('cardView');
-            var tableView = document.getElementById('tableView');
-            if (this.checked) {
-                cardView.classList.add('d-none');
-                tableView.classList.remove('d-none');
-            }
-        });
-    });
-</script>
