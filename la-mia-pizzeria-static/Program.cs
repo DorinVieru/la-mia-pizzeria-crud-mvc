@@ -13,6 +13,7 @@ namespace la_mia_pizzeria_static
            builder.Services.AddDbContext<PizzaContext>();
 
            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PizzaContext>();
 
             // Add services to the container.
