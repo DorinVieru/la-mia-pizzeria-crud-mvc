@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace la_mia_pizzeria_static.Models
 {
-    public class PizzaContext : DbContext
+    public class PizzaContext : IdentityDbContext<IdentityUser>
     {
         private const string SqlServer = "Data Source=localhost;Initial Catalog=pizzas;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DbSet<Pizze> Pizze { get; set; }
