@@ -11,22 +11,32 @@ namespace la_mia_pizzeria_static.Models
 
         public PizzaFormModel() { }
 
+        public PizzaFormModel(Pizze pizza, List<Category>? categories)
+        {
+            Pizza = pizza;
+            Categories = categories;
+            SelectedIngredients = new List<string>();
+            if (Pizza.Ingredients != null)
+                foreach (var i in Pizza.Ingredients)
+                    SelectedIngredients.Add(i.Id.ToString());
+        }
+
         public void CreateIngredients()
         {
             this.Ingredients = new List<SelectListItem>();
-            this.SelectedIngredients = new List<string>();
+            if (this.SelectedIngredients == null)
+                this.SelectedIngredients = new List<string>();
+
             var ingredientsFromDB = PizzaManager.GetAllIngredients();
             foreach (var ing in ingredientsFromDB)
             {
-                bool isSelected = this.Pizza.Ingredients?.Any(i => i.Id == ing.Id) == true;
+                bool isSelected = this.SelectedIngredients.Contains(ing.Id.ToString()); 
                 this.Ingredients.Add(new SelectListItem() // lista degli elementi selezionabili
                 {
                     Text = ing.Name, 
                     Value = ing.Id.ToString(), 
                     Selected = isSelected 
                 });
-                if (isSelected)
-                    this.SelectedIngredients.Add(ing.Id.ToString()); 
             }
         }
     }

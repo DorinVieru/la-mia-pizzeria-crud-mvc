@@ -96,7 +96,7 @@ namespace la_mia_pizzeria_static.Models
         public static bool UpdatePizza(int id, Pizze pizzaData, List<string> ingredients)
         {
             using PizzaContext db = new PizzaContext();
-            var pizza = db.Pizze.Where(x => x.Id == id).Include(x => x.Ingredients).FirstOrDefault();
+            var pizza = db.Pizze.Where(p => p.Id == id).Include(i => i.Ingredients).FirstOrDefault();
 
             if (pizza == null)
                 return false;
@@ -110,11 +110,11 @@ namespace la_mia_pizzeria_static.Models
             pizza.Ingredients.Clear(); // Prima svuoto così da salvare solo le informazioni che l'utente ha scelto, NON le aggiungiamo ai vecchi dati
             if (ingredients != null)
             {
-                foreach (var tag in ingredients)
+                foreach (var ing in ingredients)
                 {
-                    int tagId = int.Parse(tag);
-                    var tagFromDb = db.Ingredients.FirstOrDefault(x => x.Id == tagId);
-                    pizza.Ingredients.Add(tagFromDb);
+                    int ingredientId = int.Parse(ing);
+                    var ingredientDB = db.Ingredients.FirstOrDefault(x => x.Id == ingredientId);
+                    pizza.Ingredients.Add(ingredientDB);
                 }
             }
 
