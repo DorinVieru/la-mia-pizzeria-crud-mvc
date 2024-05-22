@@ -15,6 +15,8 @@ namespace la_mia_pizzeria_static.Controllers
             return View(pizze);
         }
 
+
+
         public IActionResult Details(int id)
         {
             var pizza = PizzaManager.GetPizzaById(id, true);
