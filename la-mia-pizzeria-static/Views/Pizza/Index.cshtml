@@ -77,7 +77,7 @@
                     <tr class="table-dark">
                         <th>Nome</th>
                         <th>Descrizione</th>
-                        <th>Prezzo</th>
+                        <th>Prezzo (€)</th>
                         <th>Strumenti</th>
                     </tr>
                 </thead>
@@ -86,7 +86,7 @@
                     {
                         <tr>
                             <td>@pizza.Name</td>
-                            <td>@($"{pizza.Description.SafeSubstring(10)}")</td>
+                            <td>@($"{pizza.Description.SafeSubstring(20)}")</td>
                             <td>€ @pizza.Price.ToString("0.00")</td>
                             <td>
                                 <a href="@Url.Action("Details", "Pizza", new { id = pizza.Id })" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
@@ -139,14 +139,8 @@
             document.getElementById('pizzaName').textContent = pizzaName;
         }
 
-        // Assicurati che il setFormId sia disponibile globalmente
+        // setFormId disponibile globalmente
         window.setFormId = setFormId;
-
-        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
-            if (formIdToDelete) {
-                document.getElementById('deletePizzaForm-' + formIdToDelete).submit();
-            }
-        });
 
         document.getElementById('confirmDeleteButton').addEventListener('click', function () {
             if (formIdToDelete) {

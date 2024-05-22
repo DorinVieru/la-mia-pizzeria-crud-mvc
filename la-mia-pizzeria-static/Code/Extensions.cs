@@ -6,11 +6,18 @@
         {
             if (string.IsNullOrEmpty(input))
                 return input;
+            
             string ellipsis = "";
             if (includeEllipsis && input.Length > length)
+            {
                 ellipsis = "...";
-            length = input.Length;
-            return input.Substring(0, length) + ellipsis;
+                length -= ellipsis.Length;
+            }
+
+            if (length < 0) // Se la lunghezza è troppo piccola per includere i puntini
+                length = 0;
+
+            return input.Substring(0, Math.Min(length, input.Length)) + ellipsis;
         }
     }
 }
