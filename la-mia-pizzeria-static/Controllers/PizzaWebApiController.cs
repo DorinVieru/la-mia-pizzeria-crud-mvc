@@ -26,5 +26,33 @@ namespace la_mia_pizzeria_static.Controllers
 
             return Ok(pizza);
         }
+
+        [HttpPost]
+        public IActionResult CreatePizza([FromBody] Pizze pizza)
+        {
+            PizzaManager.InsertPizza(pizza);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePizza(int id, [FromBody] Pizze pizza)
+        {
+            var oldPizza = PizzaManager.GetPizzaById(id);
+            if (oldPizza == null)
+
+                return NotFound("Errore devastante del sistema! Riprova, sarai più fortunato.");
+            PizzaManager.UpdatePizza(id, pizza, null);
+            return Ok(oldPizza);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePizza(int id)
+        {
+            bool found = PizzaManager.DeletePizza(id);
+            if (found)
+                return Ok("Pizza selezionata cancellata con successo.");
+
+            return NotFound();
+        }
     }
 }
