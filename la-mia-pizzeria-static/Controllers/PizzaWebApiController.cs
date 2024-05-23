@@ -9,10 +9,22 @@ namespace la_mia_pizzeria_static.Controllers
     public class PizzaWebApiController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetAllPizzas()
+        public IActionResult GetAllPizzas(string? search)
         {
-            var pizzas = PizzaManager.GetAllPizze();
-            return Ok(pizzas);
+            if (search == null)
+               return Ok(PizzaManager.GetAllPizze());
+
+            return Ok(PizzaManager.GetAllPizzas(search));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetPizzaById(int id)
+        {
+            var pizza = PizzaManager.GetPizzaById(id);
+            if (pizza == null)
+                return NotFound();
+
+            return Ok(pizza);
         }
     }
 }

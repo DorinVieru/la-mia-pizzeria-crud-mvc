@@ -56,6 +56,17 @@ namespace la_mia_pizzeria_static.Models
             return db.Pizze.ToList();
         }
 
+        // OTTENERE LA LISTA DI TUTTE LE PIZZE CON FILTRO
+        public static List<Pizze> GetAllPizzas(string? search)
+        {
+            using PizzaContext db = new PizzaContext();
+
+            if (search == null)
+                return db.Pizze.ToList();
+
+            return db.Pizze.Where(p => p.Name.ToLower().Contains(search)).ToList();
+        }
+
         // MODIFICARE UNA PIZZA
         public static bool UpdatePizza(int id, Pizze pizzaData, List<string> ingredients)
         {
