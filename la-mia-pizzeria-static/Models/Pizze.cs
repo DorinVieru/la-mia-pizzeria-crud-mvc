@@ -15,7 +15,8 @@ namespace la_mia_pizzeria_static.Models
         [StringLength(500, ErrorMessage = "Il nome della pizza può avere un massimo di 500 caratteri.")]
         [Required(ErrorMessage = "La descrizione della pizza è obbligatoria.")]
         public string Description { get; set; }
-        public string Img { get; set; }
+        public byte[]? ImgFile { get; set; }
+        public string ImgSrc => ImgFile != null ? $"data:image/png;base64,{Convert.ToBase64String(ImgFile)}" : "";
 
         [Required(ErrorMessage = "Il prezzo della pizza è obbligatorio.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Il prezzo della pizza deve essere superiore a 0,00€.")]
@@ -26,14 +27,6 @@ namespace la_mia_pizzeria_static.Models
         public List<Ingredient>? Ingredients { get; set; }
 
         public Pizze() { }
-
-        //public Pizze(string name, string description, string img, double price)
-        //{
-        //    this.Name = name;
-        //    this.Description = description;
-        //    this.Img = img;
-        //    this.Price = price;
-        //}
 
         public string ViewCategory()
         {

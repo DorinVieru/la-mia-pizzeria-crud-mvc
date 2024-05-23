@@ -78,7 +78,7 @@ namespace la_mia_pizzeria_static.Models
 
             pizza.Name = pizzaData.Name;
             pizza.Description = pizzaData.Description;
-            pizza.Img = pizzaData.Img;
+            pizza.ImgFile = pizzaData.ImgFile;
             pizza.Price = pizzaData.Price;
             pizza.CategoryId = pizzaData.CategoryId;
 

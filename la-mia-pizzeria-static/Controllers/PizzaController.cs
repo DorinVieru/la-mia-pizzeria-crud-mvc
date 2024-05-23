@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize]
     public class PizzaController : Controller
     {
         public IActionResult Index()
@@ -42,37 +43,24 @@ namespace la_mia_pizzeria_static.Controllers
         // CREAZIONE POST che avviene tramite il form passandogli i dati della pizza
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (PizzaFormModel pizzaDaInserire, IFormFile img)
+        public IActionResult Create (PizzaFormModel pizzaDaInserire)
         {
             if (!ModelState.IsValid)
             {
-                // Ottenere la lista degli errori di validazione
-                var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                // Verifica se ci sono errori o se la foto non è presente
-                if (errorMessages.Count > 1 || img == null || img.Length == 0)
-                {
                     pizzaDaInserire.Categories = PizzaManager.GetAllCategories();
                     pizzaDaInserire.CreateIngredients();
                     return View("Create", pizzaDaInserire); // Ritorna alla view in cui è presente il form
-                }
             }
 
-            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(img.FileName);
-            string imgPath = Path.Combine(imgFolderPath, imgFileName);
-
-            using (var stream = new FileStream(imgPath, FileMode.Create))
-            {
-                await img.CopyToAsync(stream);
-            }
-            //pizza.Pizza.Foto;
-
+            pizzaDaInserire.SetImageFileFromFormFile();
             PizzaManager.InsertPizza(pizzaDaInserire.Pizza, pizzaDaInserire.SelectedIngredients);
+
             return RedirectToAction("Index");
         }
 
         // MODIFICA GET 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             var pizzaModificata = PizzaManager.GetPizzaById(id);
@@ -97,6 +85,7 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Update", pizzaDaModificare); // Ritorna alla view in cui è presente il form di modifica
             }
 
+            pizzaDaModificare.SetImageFileFromFormFile();
             if (PizzaManager.UpdatePizza(id, pizzaDaModificare.Pizza, pizzaDaModificare.SelectedIngredients))
                 return RedirectToAction("Index");
             else

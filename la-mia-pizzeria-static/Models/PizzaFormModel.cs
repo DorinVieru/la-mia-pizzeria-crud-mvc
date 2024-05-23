@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_static.Models
 {
@@ -8,6 +9,7 @@ namespace la_mia_pizzeria_static.Models
         public List<Category>? Categories { get; set; }
         public List<SelectListItem>? Ingredients { get; set; } // Gli ingredienti selezionabili 
         public List<string>? SelectedIngredients { get; set; } // Gli ID degli ingredienti effettivamente selezionati
+        public IFormFile? ImageFormFile { get; set; } // Immagine da caricare
 
         public PizzaFormModel() { }
 
@@ -38,6 +40,19 @@ namespace la_mia_pizzeria_static.Models
                     Selected = isSelected 
                 });
             }
+        }
+
+        // Travasa i dati di ImageFormFile in Pizza.Img(da IFormFile a byte[])
+        public byte[] SetImageFileFromFormFile()
+        {
+            if (ImageFormFile == null)
+                return null;
+
+            using var stream = new MemoryStream();
+            this.ImageFormFile?.CopyTo(stream);
+            Pizza.ImgFile = stream.ToArray();
+
+            return Pizza.ImgFile;
         }
     }
 }

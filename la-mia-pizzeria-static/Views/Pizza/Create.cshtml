@@ -14,7 +14,7 @@
                 <h2>Crea la <span class="text-danger">tua pizza</span> personalizzata</h2>
             </div>
             <div class="col-7">
-                <form asp-controller="Pizza" asp-action="Create" enctype="multipart/form-data" method="post" class="my-4 bg-success rounded-3 p-4 text-white">
+                <form asp-controller="Pizza" asp-action="Create" method="post" class="my-4 bg-success rounded-3 p-4 text-white" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
@@ -28,9 +28,10 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="img" class="form-label">Immagine</label>
-                            <input type="file" asp-for="Pizza.Img" name="img" class="form-control" id="img" multiple />
-                            <span asp-validation-for="Pizza.Img" class="text-danger fw-bold"></span>
+                            <label asp-for="ImageFormFile" class="form-label">Immagine</label>
+                            <img src="@Model.Pizza.ImgSrc">
+                            <input type="file" asp-for="ImageFormFile" name="ImageFormFile" class="form-control" id="ImageFormFile"/>
+                            <span asp-validation-for="Pizza.ImgFile" class="text-danger fw-bold"></span>
                         </div>
                         <div class="col">
                             <label for="price" class="form-label">Prezzo</label>

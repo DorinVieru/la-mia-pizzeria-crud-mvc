@@ -2,59 +2,27 @@
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
     <div class="container-fluid">
         <a asp-area="" asp-controller="Home" asp-action="Index"><img class="w-25" src="~/img/logo-pizza-bomba.png" /></a>
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Pizza" asp-action="Index">Le nostre pizze</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Pizza" asp-action="Index">Le nostre pizze</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                @if (User.IsInRole("Admin"))
+                {
                     <li class="nav-item">
                         <a class="nav-link text-white" aria-current="page" href="@Url.Action("Index", "Pizza")">Admin</a>
                     </li>
-                    <!-- code omitted -->
-                    <partial name="_LoginPartial" />
-                </ul>
-            </div>
-        }
-        else if (User.IsInRole("User"))
-        {
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Pizza" asp-action="Index">Le nostre pizze</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <!-- code omitted -->
-                    <partial name="_LoginPartial" />
-                </ul>
-            </div>
-        }
-        else
-        {
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <!-- code omitted -->
-                    <partial name="_LoginPartial" />
-                </ul>
-            </div>
-        }
+                }
+                <!-- code omitted -->
+                <partial name="_LoginPartial" />
+            </ul>
+        </div>
     </div>
 </nav>

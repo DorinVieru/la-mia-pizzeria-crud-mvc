@@ -13,7 +13,10 @@
             <div class="card detail-card my-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="@Url.Content(Model.Img)" class="img-fluid rounded-start" alt="@Model.Name">
+                        @if(Model.ImgSrc != null)
+                        {
+                            <img src="@Model.ImgSrc" class="img-fluid rounded-start" alt="@Model.Name">
+                        }
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
