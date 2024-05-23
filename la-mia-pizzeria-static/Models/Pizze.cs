@@ -15,8 +15,6 @@ namespace la_mia_pizzeria_static.Models
         [StringLength(500, ErrorMessage = "Il nome della pizza può avere un massimo di 500 caratteri.")]
         [Required(ErrorMessage = "La descrizione della pizza è obbligatoria.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "L'immagine della pizza è obbligatoria.")]
         public string Img { get; set; }
 
         [Required(ErrorMessage = "Il prezzo della pizza è obbligatorio.")]

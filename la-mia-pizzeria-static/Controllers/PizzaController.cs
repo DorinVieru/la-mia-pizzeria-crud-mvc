@@ -15,8 +15,6 @@ namespace la_mia_pizzeria_static.Controllers
             return View(pizze);
         }
 
-
-
         public IActionResult Details(int id)
         {
             var pizza = PizzaManager.GetPizzaById(id, true);
@@ -29,6 +27,7 @@ namespace la_mia_pizzeria_static.Controllers
 
         // CREAZIONE GET
         [HttpGet]
+        [Authorize (Roles ="Admin")]
         public IActionResult Create()
         {
             Pizze p = new Pizze();
@@ -97,16 +96,6 @@ namespace la_mia_pizzeria_static.Controllers
                 pizzaDaModificare.CreateIngredients();
                 return View("Update", pizzaDaModificare); // Ritorna alla view in cui è presente il form di modifica
             }
-
-            // MODIFICA CON LA FUNZIONE LAMBDA
-            //bool result = PizzaManager.UpdatePizza(id, p =>
-            //{
-            //    p.Name = pizzaDaModificare.Pizza.Name;
-            //    p.Description = pizzaDaModificare.Pizza.Description;
-            //    p.Img = pizzaDaModificare.Pizza.Img;
-            //    p.Price = pizzaDaModificare.Pizza.Price;
-            //    p.CategoryId = pizzaDaModificare.Pizza.CategoryId;
-            //}, pizzaDaModificare.SelectedIngredients);
 
             if (PizzaManager.UpdatePizza(id, pizzaDaModificare.Pizza, pizzaDaModificare.SelectedIngredients))
                 return RedirectToAction("Index");
